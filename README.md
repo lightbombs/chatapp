@@ -1,8 +1,7 @@
-# Simple Chat App
 
-A real-time chat application built with Svelte and PocketBase.
+A real-time chat app using Svelte and PocketBase.
 
-## Prerequisites
+## Requirements
 
 - Node.js
 - [PocketBase](https://pocketbase.io/) server
@@ -18,7 +17,7 @@ npm install
    - Download from https://pocketbase.io/
    - Extract and run:
 ```bash
-./pocketbase serve
+pocketbase.exe serve
 ```
 4. Create two collections in PocketBase Admin UI (http://127.0.0.1:8090/_/):
    - `users` (use default auth settings)

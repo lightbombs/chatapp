@@ -47,10 +47,12 @@
 </script>
 
 {#if $currentUser}
-    <p>Welcome, {$currentUser.username}!</p> 
-    <button on:click={logout}>Logout</button> 
+    <div style="margin-bottom: 20px;">
+        <p style="display: inline; margin-right: 10px;">Welcome, {$currentUser.username}!</p>
+        <button style="background: none;  padding: 0; font-weight: bold; color: white; text-decoration: underline;" on:click={logout}>Logout</button>
+    </div>
 {:else}
-    <p>Please log in.</p> 
+    <p>Please log in.</p>
     {#if errorMessage}
         <p style="color: red">{errorMessage}</p>  <!-- anzeigen Fehlermeldung, falls vorhanden -->
     {/if}

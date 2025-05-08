@@ -2,6 +2,9 @@
     import { onMount, onDestroy } from 'svelte';
     import { currentUser, pb } from './pocketbase';
 
+    // Props zur Behandlung von Benutzerklicks
+    export let onUserClick: (userId: string) => void;
+
     let newMessage: string = '';
     let messages: any[] = [];
     let messagesDiv: HTMLElement;  // Referenz auf den Scroll-Container
@@ -44,6 +47,11 @@
         if (hasMore) {
             await loadMessages(page + 1);
         }
+    }
+
+    // Funktion zum Löschen einer Nachricht
+    async function deleteMessage(messageId: string) {
+        await pb.collection('messages').delete(messageId);
     }
 
     // Beim Mounten erstmal Seite 1 laden und Echtzeit-Abonnement starten
@@ -101,12 +109,25 @@
                         src={`https://api.dicebear.com/9.x/bottts/svg?seed=${message.expand?.user?.username}`}
                         alt="avatar"
                         width="40px"
-                        style="flex-shrink: 0;"
+                        style="flex-shrink: 0; cursor: pointer;"
+                        on:click={() => message.expand?.user && onUserClick(message.user)}
                     />
                     <div style="margin-left: 8px; flex: 1; min-width: 0; overflow-wrap: break-word; text-align: left;">
-                        <div style="color: #666;">@{message.expand?.user?.username}</div>
+                        <div style="color: #666;">
+                            <span 
+                                on:click={() => message.expand?.user && onUserClick(message.user)} 
+                                style="cursor: pointer; text-decoration: underline;"
+                            >
+                                @{message.expand?.user?.username}
+                            </span>
+                        </div>
                         <div style="word-wrap: break-word; word-break: break-word;">{message.text}</div>
                     </div>
+                    {#if message.user === $currentUser.id}
+                        <button on:click={() => deleteMessage(message.id)} style="background: none; border: none; cursor: pointer; font-weight: bold;">
+                            X
+                        </button>
+                    {/if}
                 </div>
             {/each}
         </div>

@@ -48,7 +48,8 @@
 
 {#if $currentUser}
     <div style="margin-bottom: 20px;">
-        <p style="display: inline; margin-right: 10px;">Welcome, {$currentUser.username}!</p>
+        <p>Welcome, {$currentUser.username}!</p>
+        <button style="background: none; padding: 0; font-weight: bold; color: white; text-decoration: underline; margin-right: 10px;" on:click={() => window.dispatchEvent(new CustomEvent('view-profile', { detail: $currentUser.id }))}>Profile</button>
         <button style="background: none;  padding: 0; font-weight: bold; color: white; text-decoration: underline;" on:click={logout}>Logout</button>
     </div>
 {:else}
